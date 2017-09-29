@@ -1,6 +1,6 @@
-#Meal scraper
+# Meal scraper
 
-##Dependencies
+## Dependencies
 * Python
 * BeautifulSoup
 * urllib
