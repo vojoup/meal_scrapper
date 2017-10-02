@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as soup
 
 # TODO: more restaurants
 # TODO: figure out the way to do this daily and see the results in some better way
+# TODO: consider github pages as possible hosting for website
 
 presto = 'http://www.prestorestaurant.cz/cz/chodov/'
 # Opening the page and grabbing the content
