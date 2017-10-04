@@ -17,9 +17,11 @@ page_soup = soup(page_html, "html.parser")
 # Grabs each section with class "list-new" and "red-section"
 main_courses = page_soup.findAll("section", {"class":"list-new"})
 daily_offers = page_soup.findAll("section", {"class":"red-section"})
+pan_section = page_soup.findAll("section", {"class":"blue-section"})
 # Selects just main course and daily offers from those sections above
 course = main_courses[0].findAll("h3")
 daily_offer = daily_offers[1].findAll("h3")
+pan = pan_section[1].findAll("h3")
 # If there is something in main courses, loops through each meal from main courses and prints it on sepate lines
 if len(course) > 0:
     print('Hlavni jidla:')
@@ -35,3 +37,10 @@ if len(daily_offer) > 0:
         print(meal.text)
 else:
     print('Dnes neni nic v sekci "Denni nabidka"')
+print('')
+if len(pan) > 0:
+    print('Presto panev:')
+    for meal in pan:
+        print(meal.text)
+else:
+    print('Dnes neni v nabidce zadna presto panev')
