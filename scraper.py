@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as soup
 # TODO: more restaurants
 # TODO: figure out the way to do this daily and see the results in some better way
 
-presto = 'http://www.prestorestaurant.cz/cz/chodov/'
+presto = 'http://www.prestorestaurant.cz/cz/click/chodov/1/'
 # Opening the page and grabbing the content
 uClient = uReq(presto)
 # Stores the source code in page_html variable
