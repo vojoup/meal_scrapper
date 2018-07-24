@@ -5,42 +5,46 @@ from bs4 import BeautifulSoup as soup
 # TODO: figure out the way to do this daily and see the results in some better way
 # TODO: consider github pages as possible hosting for website
 
+
+# Decide which sections should not be printed
+def shouldPrint(sectionHeader):
+    return not ('Saláty' in sectionHeader or 'Omáčky' in sectionHeader)
+
+
+# Print the daily offer
+def printDailyOffer(sectionHeader, sectionPrice, sectionOffers):
+    print(sectionHeader + ', ' + sectionPrice)
+    for offer in sectionOffers.findAll('li'):
+        print('   -' + offer.h3.text)
+    print()
+
+
+# Get the whole offer for today
+def getDailyOffer():
+    for section in page_soup.findAll("section"):
+        sectionHeader = section.strong.text
+
+        if not shouldPrint(sectionHeader):
+            continue
+        else:
+            sectionPrice = section.span.text
+            sectionOffers = section.ul
+            printDailyOffer(sectionHeader, sectionPrice, sectionOffers)
+
+
 presto = 'http://www.prestorestaurant.cz/cz/click/chodov/1/'
+
 # Opening the page and grabbing the content
 uClient = uReq(presto)
+
 # Stores the source code in page_html variable
 page_html = uClient.read()
+
 # Closes the connection
 uClient.close()
+
 # Tells BeautifulSoup how to parse the provided data
 page_soup = soup(page_html, "html.parser")
-# Grabs each section with class "list-new" and "red-section"
-main_courses = page_soup.findAll("section", {"class":"list-new"})
-daily_offers = page_soup.findAll("section", {"class":"red-section"})
-pan_section = page_soup.findAll("section", {"class":"blue-section"})
-# Selects just main course and daily offers from those sections above
-course = main_courses[0].findAll("h3")
-daily_offer = daily_offers[1].findAll("h3")
-pan = pan_section[1].findAll("h3")
-# If there is something in main courses, loops through each meal from main courses and prints it on sepate lines
-if len(course) > 0:
-    print('Hlavni jidla:')
-    for meal in course:
-        print(meal.text)
-else:
-    print('Dnes neni nic v sekci "Hlavni jidla"')
-print('')
-# If there is something in daily offer, loops through each meal from daily offers and prints it on sepate lines
-if len(daily_offer) > 0:
-    print('Denni nabidka:')
-    for meal in daily_offer:
-        print(meal.text)
-else:
-    print('Dnes neni nic v sekci "Denni nabidka"')
-print('')
-if len(pan) > 0:
-    print('Presto panev:')
-    for meal in pan:
-        print(meal.text)
-else:
-    print('Dnes neni v nabidce zadna presto panev')
+
+# Get the offer for today
+getDailyOffer()
