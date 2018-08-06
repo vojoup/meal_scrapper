@@ -1,5 +1,6 @@
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
+import json
 
 # TODO: more restaurants
 # TODO: figure out the way to do this daily and see the results in some better way
@@ -7,8 +8,8 @@ from bs4 import BeautifulSoup as soup
 
 
 # Decide which sections should not be printed
-def shouldPrint(sectionHeader):
-    return not ('Saláty' in sectionHeader or 'Omáčky' in sectionHeader)
+def shouldIncludeSection(sectionHeader):
+    return not ('Salads' in sectionHeader or 'Sauces' in sectionHeader)
 
 
 # Print the daily offer
@@ -18,24 +19,43 @@ def printDailyOffer(sectionHeader, sectionPrice, sectionOffers):
         print('   -' + offer.h3.text)
     print()
 
+def prepareJson(sectionHeader, sectionPrice, sectionOffers):
+    offers = []
+    for offer in sectionOffers.findAll('li'):
+        offers.append((offer.h3.text))
+    
+    # BUG
+    with open("daily-offer.json", "a") as f:
+        json.dump({"name": sectionHeader, "price": sectionPrice, "offers": offers}, f, indent=2)
+        if not (sectionHeader == "Side dishes"):
+            f.write(",")
 
 # Get the whole offer for today
 def getDailyOffer():
+
+    jsonOfferObjects = []
+
+    with open("daily-offer.json", "w+") as f:
+        f.write("{\"dailyOffer\": [")
+
     for section in page_soup.findAll("section"):
         sectionHeader = section.strong.text
 
-        if not shouldPrint(sectionHeader):
+        if not shouldIncludeSection(sectionHeader):
             continue
         else:
             sectionPrice = section.span.text
             sectionOffers = section.ul
-            printDailyOffer(sectionHeader, sectionPrice, sectionOffers)
+            jsonOfferObjects.append(prepareJson(sectionHeader, sectionPrice, sectionOffers))
+
+    with open("daily-offer.json", "a") as f:
+        f.write("]}")
 
 
-presto = 'http://www.prestorestaurant.cz/cz/click/chodov/1/'
+prestoURL = 'http://www.prestorestaurant.cz/en/click/chodov/1/'
 
 # Opening the page and grabbing the content
-uClient = uReq(presto)
+uClient = uReq(prestoURL)
 
 # Stores the source code in page_html variable
 page_html = uClient.read()

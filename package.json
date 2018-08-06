@@ -1,0 +1,21 @@
+{
+  "name": "meal_scrapper",
+  "version": "1.0.0",
+  "description": "## Description Program, which outputs the menu of nearby restaurants. I'm planning to add more restaurants in the future and maybe add a GUI and make a simple website with the results using github pages.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "npm run getOffers && node bot",
+    "getOffers": "npm run clean && python3 scraper.py",
+    "clean": "rm daily-offer.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vojoup/meal_scrapper.git"
+  },
+  "author": "Vojtech Oupicky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vojoup/meal_scrapper/issues"
+  },
+  "homepage": "https://github.com/vojoup/meal_scrapper#readme"
+}
