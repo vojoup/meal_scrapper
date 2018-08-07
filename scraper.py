@@ -24,10 +24,9 @@ def prepareJson(sectionHeader, sectionPrice, sectionOffers):
     for offer in sectionOffers.findAll('li'):
         offers.append((offer.h3.text))
     
-    # BUG
     with open("daily-offer.json", "a") as f:
         json.dump({"name": sectionHeader, "price": sectionPrice, "offers": offers}, f, indent=2)
-        if not (sectionHeader == "Side dishes"):
+        if not (sectionHeader == "Om\u00e1\u010dky"):
             f.write(",")
 
 # Get the whole offer for today
@@ -52,7 +51,7 @@ def getDailyOffer():
         f.write("]}")
 
 
-prestoURL = 'http://www.prestorestaurant.cz/en/click/chodov/1/'
+prestoURL = 'http://www.prestorestaurant.cz/cz/click/chodov/1/'
 
 # Opening the page and grabbing the content
 uClient = uReq(prestoURL)
