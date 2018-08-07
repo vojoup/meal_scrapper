@@ -1,9 +1,16 @@
 # Meal scraper
 
 ## Description
-Program, which outputs the menu of nearby restaurants. I'm planning to add more restaurants in the future and maybe add a GUI and make a simple website with the results using github pages.
+
+A simple html python scrapper which downloads the daily offer for [presto](http://www.prestorestaurant.cz/cz/click/chodov/1/).
+Then it includes a slack bot which inteacts with the scrapper.
+
+## Slack bot commands
+
+* `menu` - outputs the offer for today
 
 ## Dependencies
-* Python
+* Python3
 * BeautifulSoup
 * urllib
+* node.js
