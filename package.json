@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "start": "npm run getOffers && node bot",
-    "getOffers": "npm run clean && python3 scraper.py",
+    "getOffers": "python3 scraper.py",
     "clean": "rm daily-offer.json"
   },
   "repository": {
